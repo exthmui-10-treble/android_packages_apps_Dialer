@@ -563,7 +563,7 @@ public final class CallLogListItemViewHolder extends RecyclerView.ViewHolder
       case CallbackAction.VOICE:
         if (callLogCache.isVoicemailNumber(accountHandle, number)) {
           // Call to generic voicemail number, in case there are multiple accounts
-          primaryActionButtonView.setTag(IntentProvider.getReturnVoicemailCallIntentProvider(null));
+          primaryActionButtonView.setTag(IntentProvider.getReturnVoicemailCallIntentProvider());
         } else if (canSupportAssistedDialing()) {
           primaryActionButtonView.setTag(
               IntentProvider.getAssistedDialIntentProvider(
@@ -1395,6 +1395,9 @@ public final class CallLogListItemViewHolder extends RecyclerView.ViewHolder
                 Calls.CONTENT_URI,
                 CallLog.Calls._ID + " IN (" + callIdsStr + ")" /* where */,
                 null /* selectionArgs */);
+        context
+            .getContentResolver()
+            .notifyChange(Calls.CONTENT_URI, null);
       }
 
       return null;
